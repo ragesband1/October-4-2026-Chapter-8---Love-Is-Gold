@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 8 - Love Is Gold</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Montserrat:wght@300;400;600;800&display=swap');
+        
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Montserrat', sans-serif;
+            background-color: #0d0a05;
+            color: #f3e5ab;
+            user-select: none;
+        }
+
+        .font-cinzel {
+            font-family: 'Cinzel', serif;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a140a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d4af37;
+            border-radius: 3px;
+        }
+
+        /* Gold Gradient Text */
+        .gold-text {
+            background: linear-gradient(135deg, #ffe066 0%, #d4af37 50%, #aa7c11 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Glassmorphic Dark Gold Box */
+        .gold-panel {
+            background: rgba(20, 15, 8, 0.85);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.7), inset 0 0 15px rgba(212, 175, 55, 0.1);
+            backdrop-filter: blur(8px);
+        }
+
+        .gold-button {
+            background: linear-gradient(135deg, #d4af37 0%, #8a640f 100%);
+            border: 1px solid #ffe066;
+            color: #0d0a05;
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+
+        .gold-button:hover {
+            background: linear-gradient(135deg, #ffe066 0%, #d4af37 100%);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+            transform: translateY(-2px);
+        }
+
+        /* Crosshair */
+        #crosshair {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 10px;
+            height: 10px;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 10;
+        }
+        #crosshair::before, #crosshair::after {
+            content: '';
+            position: absolute;
+            background: rgba(212, 175, 55, 0.8);
+        }
+        #crosshair::before { top: 4px; left: -8px; width: 26px; height: 2px; }
+        #crosshair::after { top: -8px; left: 4px; width: 2px; height: 26px; }
+
+        /* Canvas container */
+        #canvas-container {
+            width: 100vw;
+            height: 100vh;
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-black text-amber-100 overflow-hidden select-none">
+
+<!-- Main Canvas Container -->
+<div id="canvas-container"></div>
+
+<!-- Crosshair for Pointer Lock FPS/TPS Control -->
+<div id="crosshair"></div>
+
+<!-- START SCREEN & STORY MODAL OVERLAY -->
+<div id="story-modal" class="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
+    <div class="gold-panel max-w-3xl w-full max-h-[90vh] overflow-y-auto p-8 rounded-xl border-2 border-amber-500/50 shadow-2xl text-center relative">
+        <h2 class="text-xs uppercase tracking-widest text-amber-400/80 mb-1">Bedtime Stories — February 14, 2020</h2>
+        <h1 class="text-4xl md:text-5xl font-bold font-cinzel gold-text mb-2">Chapter 8: Love Is Gold</h1>
+        <p class="text-xs italic text-amber-200/60 mb-6">Written by Peter Piper Camelot And “The Rages Band”</p>
+        
+        <div class="bg-amber-950/30 p-6 rounded-lg border border-amber-800/40 text-left text-sm md:text-base leading-relaxed space-y-4 mb-6 text-amber-100/90 font-serif">
+            <p>
+                Once upon a time there is a man came named <strong>Eliot The Gold Time</strong>. Elliot has a first home named <strong>“House Of Gold”</strong>. That’s why he named himself <strong>“Love Is Gold”</strong>. And for sure all of the money he spent is almost lost now before. So there are the times his house came on the rent to spent.
+            </p>
+            <p>
+                But the accident happen on why his money gets lost. Because all in all he buy things such as expensive like Ship, car etc. that is not necessary to buy. He don’t think first before he buy. So as taken the result he don’t pay the rent. Eliot get mad and said, why you there renters taken my house as a rent. Renters said, sorry it’s too late. Because now is the late time to pay your rent house. So regret and get out of the house because you don’t save money for the house.
+            </p>
+            <p>
+                Eliot The Gold Time betrays his own self because he has no shelter to do. So much last 50 years of finding. He regret that he must save money from the past to sustain his own house. But because of money he love. All of the dreams is fade away. As the story ends, Eliot died without future gold. Cause all also his jobs are gone because of buying expensive and excessive things that is not necessary to buy them all. And the cause of death of hunger.
+            </p>
+            <div class="p-4 bg-amber-500/10 border-l-4 border-amber-400 rounded">
+                <p class="font-bold text-amber-300 font-sans text-xs uppercase tracking-wider mb-1">Moral Lesson:</p>
+                <p class="italic text-amber-200 text-sm">
+                    "Be practical, save money for the future use. Be assertive to buy only the important things which is relevant to finished the rents. And also don’t buy that is not important in future you love. Because death takes time. You don’t know when without gold. Think before you buy."
+                </p>
+            </div>
+        </div>
+
+        <!-- Class Selection before start -->
+        <div class="mb-6">
+            <h3 class="text-amber-300 font-cinzel font-bold text-lg mb-3">Choose Eliot's Mindset (Class):</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <button onclick="selectClass('Spendthrift')" id="class-Spendthrift" class="p-3 rounded border border-amber-500/40 bg-amber-950/40 hover:bg-amber-800/40 transition text-left">
+                    <div class="font-bold text-amber-300 text-sm">Spendthrift Eliot</div>
+                    <div class="text-xs text-amber-100/70">Starts with +500 Gold but High Hunger Decay and +200 Rent Debt.</div>
+                </button>
+                <button onclick="selectClass('Practical')" id="class-Practical" class="p-3 rounded border border-amber-500/80 bg-amber-600/30 text-left">
+                    <div class="font-bold text-amber-300 text-sm">Practical Saver</div>
+                    <div class="text-xs text-amber-100/70">Balanced Stats, -25% Rent Debt required, extra Stamina.</div>
+                </button>
+                <button onclick="selectClass('Merchant')" id="class-Merchant" class="p-3 rounded border border-amber-500/40 bg-amber-950/40 hover:bg-amber-800/40 transition text-left">
+                    <div class="font-bold text-amber-300 text-sm">Gold Merchant</div>
+                    <div class="text-xs text-amber-100/70">Deals 50% extra Gold Beam attack damage against Debt Monsters.</div>
+                </button>
+            </div>
+        </div>
+
+        <button onclick="startGame()" class="gold-button px-8 py-3 rounded-lg text-lg uppercase tracking-wider font-bold shadow-lg w-full md:w-auto">
+            <i class="fa-solid fa-play mr-2"></i> Enter World & Save Eliot
+        </button>
+    </div>
+</div>
+
+<!-- GAME HUD OVERLAY (In Game) -->
+<div id="game-hud" class="hidden fixed inset-0 pointer-events-none p-4 flex flex-col justify-between z-20">
+    
+    <!-- TOP BAR: STATS & BARS -->
+    <div class="flex flex-wrap justify-between items-start gap-4">
+        <!-- Player Info & Health/Hunger -->
+        <div class="gold-panel p-4 rounded-xl max-w-xs w-full pointer-events-auto space-y-2">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-cinzel font-bold text-amber-300 text-sm" id="hud-player-name">Eliot The Gold Time</span>
+                <span class="text-xs bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded border border-amber-500/30" id="hud-level">Lvl 1</span>
+            </div>
+            
+            <!-- HP Bar -->
+            <div>
+                <div class="flex justify-between text-xs mb-0.5">
+                    <span class="text-red-300"><i class="fa-solid fa-heart mr-1"></i> Health</span>
+                    <span id="hp-text">100 / 100</span>
+                </div>
+                <div class="w-full h-2.5 bg-gray-950 rounded-full overflow-hidden border border-red-900/50">
+                    <div id="hp-bar" class="h-full bg-gradient-to-r from-red-600 to-red-400 w-full transition-all duration-300"></div>
+                </div>
+            </div>
+
+            <!-- Hunger Bar -->
+            <div>
+                <div class="flex justify-between text-xs mb-0.5">
+                    <span class="text-amber-300"><i class="fa-solid fa-drumstick-bite mr-1"></i> Fullness / Hunger</span>
+                    <span id="hunger-text">100 / 100</span>
+                </div>
+                <div class="w-full h-2.5 bg-gray-950 rounded-full overflow-hidden border border-amber-900/50">
+                    <div id="hunger-bar" class="h-full bg-gradient-to-r from-amber-600 to-amber-400 w-full transition-all duration-300"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rent Debt & Financial Status -->
+        <div class="gold-panel p-4 rounded-xl pointer-events-auto flex items-center space-x-6">
+            <div class="text-center">
+                <div class="text-xs text-amber-200/70 uppercase">Current Gold</div>
+                <div class="text-2xl font-bold font-cinzel text-amber-300 flex items-center justify-center">
+                    <i class="fa-solid fa-coins mr-2 text-amber-400"></i> <span id="hud-gold">0</span>
+                </div>
+            </div>
+            <div class="h-8 w-px bg-amber-500/30"></div>
+            <div class="text-center">
+                <div class="text-xs text-red-300/80 uppercase">Rent Debt Due</div>
+                <div class="text-2xl font-bold font-cinzel text-red-400 flex items-center justify-center">
+                    <i class="fa-solid fa-file-invoice-dollar mr-2"></i> <span id="hud-debt">1,000</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mini Map Container -->
+        <div class="gold-panel p-2 rounded-xl pointer-events-auto flex flex-col items-center">
+            <div class="text-[10px] text-amber-300/80 uppercase mb-1 font-bold">House Of Gold Radar</div>
+            <canvas id="minimap" width="100" height="100" class="rounded border border-amber-500/40 bg-black/60"></canvas>
+        </div>
+    </div>
+
+    <!-- QUEST TRACKER OVERLAY (MIDDLE RIGHT) -->
+    <div class="absolute right-4 top-36 gold-panel p-4 rounded-xl max-w-xs w-full pointer-events-auto text-xs space-y-2">
+        <h3 class="font-cinzel font-bold text-amber-300 border-b border-amber-500/30 pb-1 flex justify-between">
+            <span><i class="fa-solid fa-scroll mr-1"></i> Active Objectives</span>
+            <span id="quest-count" class="text-amber-400">1/4</span>
+        </h3>
+        <div id="quest-list" class="space-y-1.5 text-amber-100/90">
+            <!-- Dynamic Quests Loaded Here -->
+        </div>
+    </div>
+
+    <!-- INTERACTION PROMPT -->
+    <div id="interaction-prompt" class="hidden self-center bg-black/80 border border-amber-400 text-amber-300 px-6 py-2 rounded-full font-bold text-sm shadow-xl animate-bounce">
+        Press <span class="bg-amber-500 text-black px-2 py-0.5 rounded ml-1 mr-1">[E]</span> to interact
+    </div>
+
+    <!-- BOTTOM ACTION BAR / HELPER CONTROLS -->
+    <div class="flex justify-between items-end">
+        <div class="gold-panel p-3 rounded-xl pointer-events-auto text-xs text-amber-200/80 space-y-1">
+            <div><span class="font-bold text-amber-400">WASD:</span> Move | <span class="font-bold text-amber-400">Space:</span> Jump | <span class="font-bold text-amber-400">Shift:</span> Sprint</div>
+            <div><span class="font-bold text-amber-400">Left Click:</span> Gold Beam Attack | <span class="font-bold text-amber-400">C:</span> Toggle 1st/3rd Person</div>
+            <div><span class="font-bold text-amber-400">I:</span> Inventory | <span class="font-bold text-amber-400">K:</span> Skill Tree | <span class="font-bold text-amber-400">Tab:</span> Mouse Lock</div>
+        </div>
+
+        <div class="flex space-x-2 pointer-events-auto">
+            <button onclick="toggleInventory()" class="gold-button p-3 rounded-lg flex items-center justify-center space-x-2">
+                <i class="fa-solid fa-briefcase"></i> <span>Inventory (I)</span>
+            </button>
+            <button onclick="toggleSkillTree()" class="gold-button p-3 rounded-lg flex items-center justify-center space-x-2">
+                <i class="fa-solid fa-tree"></i> <span>Skills (K)</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- INVENTORY MODAL -->
+<div id="inventory-modal" class="hidden fixed inset-0 bg-black/80 z-40 flex items-center justify-center p-4">
+    <div class="gold-panel max-w-2xl w-full p-6 rounded-xl border border-amber-500/50 flex flex-col max-h-[80vh]">
+        <div class="flex justify-between items-center border-b border-amber-500/30 pb-3 mb-4">
+            <h2 class="text-xl font-bold font-cinzel text-amber-300"><i class="fa-solid fa-briefcase mr-2"></i>Eliot's Inventory & Possessions</h2>
+            <button onclick="toggleInventory()" class="text-amber-400 hover:text-white text-xl">&times;</button>
+        </div>
+        <div class="grid grid-cols-2 gap-4 flex-1 overflow-y-auto">
+            <!-- Item List -->
+            <div>
+                <h3 class="text-xs font-bold text-amber-400 uppercase mb-2">Acquired Items</h3>
+                <div id="inventory-list" class="space-y-2">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+            <!-- Item Details -->
+            <div class="bg-amber-950/20 p-4 rounded border border-amber-800/30 flex flex-col justify-between">
+                <div>
+                    <h4 id="item-title" class="font-bold text-amber-300 mb-1">Select an Item</h4>
+                    <p id="item-desc" class="text-xs text-amber-100/70 italic mb-4">Click an item on the left to see details or eat/use it.</p>
+                </div>
+                <button id="item-use-btn" class="hidden gold-button w-full py-2 text-sm rounded">Use Item</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SKILL TREE MODAL -->
+<div id="skill-modal" class="hidden fixed inset-0 bg-black/80 z-40 flex items-center justify-center p-4">
+    <div class="gold-panel max-w-2xl w-full p-6 rounded-xl border border-amber-500/50">
+        <div class="flex justify-between items-center border-b border-amber-500/30 pb-3 mb-4">
+            <h2 class="text-xl font-bold font-cinzel text-amber-300"><i class="fa-solid fa-tree mr-2"></i>Mindset Perks & Skill Tree</h2>
+            <button onclick="toggleSkillTree()" class="text-amber-400 hover:text-white text-xl">&times;</button>
+        </div>
+        <div class="text-xs text-amber-200/70 mb-4">
+            Available Skill Points: <span id="skill-points-txt" class="text-amber-300 font-bold">0</span> (Earned per Level Up)
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="p-3 bg-amber-950/30 border border-amber-800/40 rounded flex justify-between items-center">
+                <div>
+                    <div class="font-bold text-amber-300 text-sm">Practical Saver</div>
+                    <div class="text-[11px] text-amber-100/70">Reduces hunger depletion speed by 30%.</div>
+                </div>
+                <button id="skill-btn-0" onclick="unlockSkill(0)" class="gold-button px-3 py-1 text-xs rounded">Learn</button>
+            </div>
+            <div class="p-3 bg-amber-950/30 border border-amber-800/40 rounded flex justify-between items-center">
+                <div>
+                    <div class="font-bold text-amber-300 text-sm">Bargain Master</div>
+                    <div class="text-[11px] text-amber-100/70">Reduces rent debt payment requirement by 20%.</div>
+                </div>
+                <button id="skill-btn-1" onclick="unlockSkill(1)" class="gold-button px-3 py-1 text-xs rounded">Learn</button>
+            </div>
+            <div class="p-3 bg-amber-950/30 border border-amber-800/40 rounded flex justify-between items-center">
+                <div>
+                    <div class="font-bold text-amber-300 text-sm">Gold Beam Magnet</div>
+                    <div class="text-[11px] text-amber-100/70">Attacks gain +50% range and damage.</div>
+                </div>
+                <button id="skill-btn-2" onclick="unlockSkill(2)" class="gold-button px-3 py-1 text-xs rounded">Learn</button>
+            </div>
+            <div class="p-3 bg-amber-950/30 border border-amber-800/40 rounded flex justify-between items-center">
+                <div>
+                    <div class="font-bold text-amber-300 text-sm">Assertive Willpower</div>
+                    <div class="text-[11px] text-amber-100/70">Restores +20 HP when picking up Gold Chests.</div>
+                </div>
+                <button id="skill-btn-3" onclick="unlockSkill(3)" class="gold-button px-3 py-1 text-xs rounded">Learn</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- NPC DIALOG / ACTION MODAL -->
+<div id="npc-dialog" class="hidden fixed bottom-12 left-1/2 transform -translate-x-1/2 max-w-xl w-full gold-panel p-6 rounded-xl border-2 border-amber-400 z-30 pointer-events-auto">
+    <div class="flex items-center space-x-4 mb-3">
+        <div class="w-12 h-12 rounded-full bg-amber-500/20 border border-amber-400 flex items-center justify-center text-amber-300 text-xl font-bold font-cinzel" id="npc-avatar">
+            NPC
+        </div>
+        <div>
+            <h3 class="font-bold font-cinzel text-amber-300 text-base" id="npc-name">NPC Name</h3>
+            <p class="text-xs text-amber-200/60" id="npc-role">Town Citizen</p>
+        </div>
+    </div>
+    <p class="text-sm text-amber-100/90 leading-relaxed mb-4 bg-amber-950/40 p-3 rounded border border-amber-800/30" id="npc-text">
+        Dialog text here...
+    </p>
+    <div id="npc-options" class="flex flex-wrap gap-2 justify-end">
+        <!-- Buttons injected dynamically -->
+    </div>
+</div>
+
+<!-- GAME OVER / LESSON SCREEN -->
+<div id="game-over-modal" class="hidden fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4">
+    <div class="gold-panel max-w-lg w-full p-8 rounded-xl text-center border-2 border-red-500/50">
+        <i class="fa-solid fa-skull-crossbones text-5xl text-red-500 mb-4 animate-pulse"></i>
+        <h1 class="text-3xl font-bold font-cinzel text-red-400 mb-2">Eliot Ran Out Of Time</h1>
+        <p class="text-sm text-amber-100/80 mb-6" id="game-over-reason">Eliot died of hunger without future gold and lost the House Of Gold.</p>
+        
+        <div class="p-4 bg-red-950/30 border border-red-800/40 rounded text-left text-xs space-y-2 mb-6">
+            <div class="font-bold text-amber-300 uppercase">Moral Lesson Remembered:</div>
+            <div class="italic text-amber-200">
+                "Be practical, save money for the future use. Be assertive to buy only the important things which is relevant to finished the rents..."
+            </div>
+        </div>
+
+        <button onclick="restartGame()" class="gold-button px-6 py-3 rounded-lg text-sm font-bold uppercase">
+            <i class="fa-solid fa-rotate-right mr-2"></i> Try Again (Be Practical)
+        </button>
+    </div>
+</div>
+
+<!-- VICTORY / LESSON LEARNED SCREEN -->
+<div id="victory-modal" class="hidden fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4">
+    <div class="gold-panel max-w-lg w-full p-8 rounded-xl text-center border-2 border-amber-400">
+        <i class="fa-solid fa-crown text-5xl text-amber-400 mb-4 animate-bounce"></i>
+        <h1 class="text-3xl font-bold font-cinzel gold-text mb-2">Rent Paid! House Saved!</h1>
+        <p class="text-sm text-amber-100/90 mb-6">Eliot overcome his reckless habits, defeated the Debt Collectors, and saved the <strong>House Of Gold</strong>!</p>
+
+        <div class="p-4 bg-amber-500/10 border-l-4 border-amber-400 rounded text-left text-xs mb-6">
+            <div class="font-bold text-amber-300 uppercase mb-1">True Moral Lesson Achieved:</div>
+            <div class="italic text-amber-200">
+                "Be practical, save money for the future use. Be assertive to buy only the important things which is relevant to finished the rents."
+            </div>
+        </div>
+
+        <button onclick="restartGame()" class="gold-button px-6 py-3 rounded-lg text-sm font-bold uppercase">
+            <i class="fa-solid fa-play mr-2"></i> Play Again
+        </button>
+    </div>
+</div>
+
+<script>
+/* =========================================================================
+   SYNTHESIZED AUDIO ENGINE (Web Audio API - No External Files Required)
+   ========================================================================= */
+class SoundEngine {
+    constructor() {
+        this.ctx = null;
+    }
+    init() {
+        if (!this.ctx) {
+            this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+    }
+    playGold() {
+        if (!this.ctx) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(987.77, this.ctx.currentTime); // B5
+        osc.frequency.exponentialRampToValueAtTime(1318.51, this.ctx.currentTime + 0.15); // E6
+        gain.gain.setValueAtTime(0.2, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.3);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.3);
+    }
+    playAttack() {
+        if (!this.ctx) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(300, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(80, this.ctx.currentTime + 0.2);
+        gain.gain.setValueAtTime(0.2, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.2);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.2);
+    }
+    playEat() {
+        if (!this.ctx) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(200, this.ctx.currentTime);
+        osc.frequency.setValueAtTime(300, this.ctx.currentTime + 0.1);
+        gain.gain.setValueAtTime(0.2, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.25);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.25);
+    }
+    playHurt() {
+        if (!this.ctx) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(120, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(40, this.ctx.currentTime + 0.3);
+        gain.gain.setValueAtTime(0.3, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.3);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.3);
+    }
+}
+const sounds = new SoundEngine();
+
+/* =========================================================================
+   GAME STATE MANAGEMENT & STATS
+   ========================================================================= */
+let playerStats = {
+    name: "Eliot The Gold Time",
+    class: "Practical",
+    hp: 100,
+    maxHp: 100,
+    hunger: 100,
+    maxHunger: 100,
+    gold: 150,
+    rentDebt: 1000,
+    level: 1,
+    xp: 0,
+    xpToNext: 100,
+    skillPoints: 0,
+    skillsUnlocked: [false, false, false, false], // Saver, Bargain, Attack, HealthGold
+    inventory: [
+        { id: 'bread', name: 'Practical Bread', type: 'food', val: 35, desc: 'Restores 35 Hunger. Essential for survival.', qty: 3 },
+        { id: 'water', name: 'Clean Water', type: 'food', val: 25, desc: 'Restores 25 Hunger.', qty: 2 }
+    ]
+};
+
+let selectedClass = 'Practical';
+
+const quests = [
+    { id: 1, title: 'Resist Luxury & Speak to Wise Banker', desc: 'Find Wise Banker near the square to discuss rent.', done: false },
+    { id: 2, title: 'Gather Practical Gold Chests', desc: 'Collect 3 Gold Chests around town (0/3)', current: 0, target: 3, done: false },
+    { id: 3, title: 'Defeat Debt Monsters in Debt Dungeon', desc: 'Vanquish 3 Debt Spectres in the wilderness (0/3)', current: 0, target: 3, done: false },
+    { id: 4, title: 'Pay Rent Debt to Landlord Renter', desc: 'Accumulate 1,000 Gold and pay the Landlord.', done: false }
+];
+
+/* =========================================================================
+   THREE.JS 3D WORLD, ENGINE & SETUP
+   ========================================================================= */
+let scene, camera, renderer;
+let playerMesh, cameraPivot;
+let isFirstPerson = false;
+let clock = new THREE.Clock();
+
+// Interactive Entities
+let npcs = [];
+let goldChests = [];
+let enemies = [];
+let LuxuryDealer = null;
+
+// Controls
+let keys = {};
+let mouseLook = { yaw: 0, pitch: 0 };
+let activeNPC = null;
+let isPointerLocked = false;
+
+function selectClass(className) {
+    selectedClass = className;
+    ['Spendthrift', 'Practical', 'Merchant'].forEach(c => {
+        const btn = document.getElementById(`class-${c}`);
+        if (c === className) {
+            btn.className = "p-3 rounded border-2 border-amber-400 bg-amber-600/40 text-left";
+        } else {
+            btn.className = "p-3 rounded border border-amber-500/40 bg-amber-950/40 hover:bg-amber-800/40 transition text-left";
+        }
+    });
+}
+
+function init3DWorld() {
+    const container = document.getElementById('canvas-container');
+
+    // Scene setup
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0a0805);
+    scene.fog = new THREE.FogExp2(0x0a0805, 0.015);
+
+    // Camera setup
+    camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 500);
+    cameraPivot = new THREE.Object3D();
+    scene.add(cameraPivot);
+    cameraPivot.add(camera);
+    camera.position.set(0, 2.5, 5); // 3rd person default offset
+
+    // Renderer setup
+    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    container.appendChild(renderer.domElement);
+
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0xffeedd, 0.4);
+    scene.add(ambientLight);
+
+    const dirLight = new THREE.DirectionalLight(0xffdfa0, 0.8);
+    dirLight.position.set(40, 60, 20);
+    dirLight.castShadow = true;
+    dirLight.shadow.mapSize.width = 2048;
+    dirLight.shadow.mapSize.height = 2048;
+    dirLight.shadow.camera.near = 0.5;
+    dirLight.shadow.camera.far = 200;
+    dirLight.shadow.camera.left = -60;
+    dirLight.shadow.camera.right = 60;
+    dirLight.shadow.camera.top = 60;
+    dirLight.shadow.camera.bottom = -60;
+    scene.add(dirLight);
+
+    // Ground / Environment Floor
+    const floorGeo = new THREE.PlaneGeometry(250, 250);
+    const floorMat = new THREE.MeshStandardMaterial({ 
+        color: 0x1f1910, 
+        roughness: 0.8,
+        metalness: 0.1
+    });
+    const floor = new THREE.Mesh(floorGeo, floorMat);
+    floor.rotation.x = -Math.PI / 2;
+    floor.receiveShadow = true;
+    scene.add(floor);
+
+    // Cobblestone Road Network
+    const roadGeo = new THREE.PlaneGeometry(20, 200);
+    const roadMat = new THREE.MeshStandardMaterial({ color: 0x15120d, roughness: 0.9 });
+    const road = new THREE.Mesh(roadGeo, roadMat);
+    road.rotation.x = -Math.PI / 2;
+    road.position.y = 0.01;
+    scene.add(road);
+
+    // Build World Architecture
+    buildHouseOfGold();
+    buildTownSquare();
+    buildLuxuryShowroom();
+    buildDebtDungeon();
+
+    // Spawn Player Character
+    createPlayer();
+
+    // Spawn NPCs & Enemies
+    spawnNPCs();
+    spawnGoldChests();
+    spawnEnemies();
+
+    // Event Listeners
+    window.addEventListener('resize', onWindowResize);
+    setupControls();
+}
+
+// House Of Gold Mansion
+function buildHouseOfGold() {
+    const group = new THREE.Group();
+    group.position.set(0, 0, -50);
+
+    // Mansion Main Body
+    const bodyGeo = new THREE.BoxGeometry(24, 14, 20);
+    const bodyMat = new THREE.MeshStandardMaterial({ color: 0x3d2b0f, roughness: 0.4, metalness: 0.3 });
+    const body = new THREE.Mesh(bodyGeo, bodyMat);
+    body.position.y = 7;
+    body.castShadow = true;
+    body.receiveShadow = true;
+    group.add(body);
+
+    // Gold Trim Pillars
+    for (let x = -10; x <= 10; x += 5) {
+        const pillarGeo = new THREE.CylinderGeometry(0.6, 0.6, 14);
+        const pillarMat = new THREE.MeshStandardMaterial({ color: 0xd4af37, metalness: 0.8, roughness: 0.2 });
+        const pillar = new THREE.Mesh(pillarGeo, pillarMat);
+        pillar.position.set(x, 7, 10.2);
+        pillar.castShadow = true;
+        group.add(pillar);
+    }
+
+    // Roof Top
+    const roofGeo = new THREE.ConeGeometry(18, 8, 4);
+    const roofMat = new THREE.MeshStandardMaterial({ color: 0x8a640f, metalness: 0.6 });
+    const roof = new THREE.Mesh(roofGeo, roofMat);
+    roof.position.y = 18;
+    roof.rotation.y = Math.PI / 4;
+    group.add(roof);
+
+    // Signboard "HOUSE OF GOLD"
+    const signGeo = new THREE.BoxGeometry(12, 2.5, 0.5);
+    const signMat = new THREE.MeshStandardMaterial({ color: 0xd4af37, metalness: 0.9 });
+    const sign = new THREE.Mesh(signGeo, signMat);
+    sign.position.set(0, 12, 10.4);
+    group.add(sign);
+
+    scene.add(group);
+}
+
+// Town Square & Rent Office
+function buildTownSquare() {
+    // Rent Office
+    const rentGeo = new THREE.BoxGeometry(16, 10, 14);
+    const rentMat = new THREE.MeshStandardMaterial({ color: 0x2b1e10 });
+    const rentOffice = new THREE.Mesh(rentGeo, rentMat);
+    rentOffice.position.set(-35, 5, 0);
+    rentOffice.castShadow = true;
+    scene.add(rentOffice);
+
+    // Wise Banker Tent
+    const bankGeo = new THREE.CylinderGeometry(6, 7, 6, 8);
+    const bankMat = new THREE.MeshStandardMaterial({ color: 0x5c4018 });
+    const bank = new THREE.Mesh(bankGeo, bankMat);
+    bank.position.set(30, 3, 0);
+    scene.add(bank);
+}
+
+// Luxury Showroom (Ships & Supercars temptation)
+function buildLuxuryShowroom() {
+    const group = new THREE.Group();
+    group.position.set(45, 0, -40);
+
+    // Glass/Golden Pavilion
+    const wallGeo = new THREE.BoxGeometry(22, 10, 22);
+    const wallMat = new THREE.MeshStandardMaterial({ color: 0x8a640f, transparent: true, opacity: 0.6, metalness: 0.7 });
+    const pavilion = new THREE.Mesh(wallGeo, wallMat);
+    pavilion.position.y = 5;
+    group.add(pavilion);
+
+    // Display Ship Model
+    const shipGeo = new THREE.ConeGeometry(3, 8, 3);
+    const shipMat = new THREE.MeshStandardMaterial({ color: 0xd4af37, metalness: 0.9 });
+    const ship = new THREE.Mesh(shipGeo, shipMat);
+    ship.rotation.z = Math.PI / 2;
+    ship.position.set(-5, 3, 0);
+    group.add(ship);
+
+    // Display Supercar Model
+    const carGeo = new THREE.BoxGeometry(4, 1.8, 7);
+    const carMat = new THREE.MeshStandardMaterial({ color: 0xff1100, metalness: 0.8, roughness: 0.2 });
+    const car = new THREE.Mesh(carGeo, carMat);
+    car.position.set(5, 1, 0);
+    group.add(car);
+
+    scene.add(group);
+}
+
+// Debt Dungeon Wilderness Area
+function buildDebtDungeon() {
+    const group = new THREE.Group();
+    group.position.set(0, 0, 60);
+
+    // Dark Spikes / Rocks
+    for (let i = 0; i < 12; i++) {
+        const rockGeo = new THREE.ConeGeometry(2 + Math.random() * 2, 8 + Math.random() * 6, 5);
+        const rockMat = new THREE.MeshStandardMaterial({ color: 0x110d08, roughness: 0.9 });
+        const rock = new THREE.Mesh(rockGeo, rockMat);
+        rock.position.set((Math.random() - 0.5) * 60, 4, (Math.random() - 0.5) * 40);
+        group.add(rock);
+    }
+    scene.add(group);
+}
+
+function createPlayer() {
+    const playerGroup = new THREE.Group();
+
+    // Body
+    const bodyGeo = new THREE.CylinderGeometry(0.5, 0.4, 1.8, 12);
+    const bodyMat = new THREE.MeshStandardMaterial({ color: 0xd4af37, metalness: 0.5, roughness: 0.3 }); // Eliot Gold Outfit
+    const body = new THREE.Mesh(bodyGeo, bodyMat);
+    body.position.y = 0.9;
+    body.castShadow = true;
+    playerGroup.add(body);
+
+    // Head
+    const headGeo = new THREE.SphereGeometry(0.35, 16, 16);
+    const headMat = new THREE.MeshStandardMaterial({ color: 0xffdbac });
+    const head = new THREE.Mesh(headGeo, headMat);
+    head.position.y = 2.0;
+    head.castShadow = true;
+    playerGroup.add(head);
+
+    // Golden Crown/Hat
+    const hatGeo = new THREE.ConeGeometry(0.4, 0.5, 8);
+    const hatMat = new THREE.MeshStandardMaterial({ color: 0xffe066, metalness: 0.9 });
+    const hat = new THREE.Mesh(hatGeo, hatMat);
+    hat.position.y = 2.4;
+    playerGroup.add(hat);
+
+    playerMesh = playerGroup;
+    playerMesh.position.set(0, 0, 10); // Start near town street
+    scene.add(playerMesh);
+}
+
+function spawnNPCs() {
+    const npcData = [
+        { name: "Landlord Renter", role: "House Owner", pos: [-30, 0, 5], color: 0x882222, dialog: "Pay your 1,000 Gold Rent Debt or leave the House Of Gold!" },
+        { name: "Wise Banker", role: "Financial Advisor", pos: [25, 0, 5], color: 0x228844, dialog: "Eliot, stop buying yachts and cars! Collect Gold Chests and defeat Debt Spectres." },
+        { name: "Luxury Salesman", role: "Reckless Vendor", pos: [40, 0, -35], color: 0xaa22aa, dialog: "Buy this Supercar for 500 Gold! Who needs rent anyway?" },
+        { name: "Town Citizen", role: "Local Resident", pos: [-5, 0, 20], color: 0x4466aa, dialog: "Remember the lesson: Think before you buy!" }
+    ];
+
+    npcData.forEach(data => {
+        const group = new THREE.Group();
+        group.position.set(...data.pos);
+
+        const meshGeo = new THREE.CylinderGeometry(0.5, 0.5, 1.8);
+        const meshMat = new THREE.MeshStandardMaterial({ color: data.color });
+        const mesh = new THREE.Mesh(meshGeo, meshMat);
+        mesh.position.y = 0.9;
+        mesh.castShadow = true;
+        group.add(mesh);
+
+        // Hologram Light
+        const light = new THREE.PointLight(data.color, 1, 6);
+        light.position.y = 2;
+        group.add(light);
+
+        scene.add(group);
+        npcs.push({ group, name: data.name, role: data.role, dialog: data.dialog });
+    });
+}
+
+function spawnGoldChests() {
+    const chestPositions = [
+        [-15, 0, -20],
+        [15, 0, -25],
+        [-25, 0, 30],
+        [30, 0, 45],
+        [0, 0, -40]
+    ];
+
+    chestPositions.forEach(pos => {
+        const chestGeo = new THREE.BoxGeometry(1.2, 0.9, 0.9);
+        const chestMat = new THREE.MeshStandardMaterial({ color: 0xffd700, metalness: 0.9, roughness: 0.2 });
+        const chest = new THREE.Mesh(chestGeo, chestMat);
+        chest.position.set(pos[0], 0.45, pos[1]);
+        chest.castShadow = true;
+        scene.add(chest);
+        goldChests.push(chest);
+    });
+}
+
+function spawnEnemies() {
+    const enemyData = [
+        { name: "Debt Spectre", pos: [-10, 0, 55], hp: 50 },
+        { name: "Greed Spirit", pos: [10, 0, 65], hp: 60 },
+        { name: "Luxury Boss Phantom", pos: [0, 0, 80], hp: 150 }
+    ];
+
+    enemyData.forEach(data => {
+        const group = new THREE.Group();
+        group.position.set(...data.pos);
+
+        const bodyGeo = new THREE.DodecahedronGeometry(0.8);
+        const bodyMat = new THREE.MeshStandardMaterial({ color: 0x990000, roughness: 0.3, metalness: 0.8 });
+        const body = new THREE.Mesh(bodyGeo, bodyMat);
+        body.position.y = 1.2;
+        body.castShadow = true;
+        group.add(body);
+
+        scene.add(group);
+        enemies.push({ group, name: data.name, hp: data.hp, maxHp: data.hp, maxHpConst: data.hp });
+    });
+}
+
+function setupControls() {
+    window.addEventListener('keydown', (e) => {
+        keys[e.code] = true;
+        if (e.code === 'KeyI') toggleInventory();
+        if (e.code === 'KeyK') toggleSkillTree();
+        if (e.code === 'KeyC') toggleCameraMode();
+        if (e.code === 'KeyE') checkInteraction();
+        if (e.code === 'Tab') {
+            e.preventDefault();
+            togglePointerLock();
+        }
+    });
+
+    window.addEventListener('keyup', (e) => {
+        keys[e.code] = false;
+    });
+
+    window.addEventListener('mousemove', (e) => {
+        if (document.pointerLockElement === document.body) {
+            mouseLook.yaw -= e.movementX * 0.0025;
+            mouseLook.pitch -= e.movementY * 0.0025;
+            mouseLook.pitch = Math.max(-Math.PI / 4, Math.min(Math.PI / 4, mouseLook.pitch));
+        }
+    });
+
+    window.addEventListener('mousedown', (e) => {
+        if (e.button === 0 && isPointerLocked) {
+            playerAttack();
+        }
+    });
+}
+
+function togglePointerLock() {
+    if (document.pointerLockElement === document.body) {
+        document.exitPointerLock();
+        isPointerLocked = false;
+    } else {
+        document.body.requestPointerLock();
+        isPointerLocked = true;
+    }
+}
+
+function toggleCameraMode() {
+    isFirstPerson = !isFirstPerson;
+    if (isFirstPerson) {
+        camera.position.set(0, 2.0, 0); // FP offset inside head
+    } else {
+        camera.position.set(0, 2.5, 5); // 3rd person behind
+    }
+}
+
+function playerAttack() {
+    sounds.playAttack();
+
+    // Create Gold Beam Mesh
+    const beamGeo = new THREE.CylinderGeometry(0.1, 0.3, 12);
+    const beamMat = new THREE.MeshBasicMaterial({ color: 0xffe066, transparent: true, opacity: 0.8 });
+    const beam = new THREE.Mesh(beamGeo, beamMat);
+    beam.rotation.x = Math.PI / 2;
+
+    const dir = new THREE.Vector3();
+    camera.getWorldDirection(dir);
+    beam.position.copy(playerMesh.position).add(dir.clone().multiplyScalar(6)).add(new THREE.Vector3(0, 1.2, 0));
+    beam.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir);
+    scene.add(beam);
+
+    setTimeout(() => scene.remove(beam), 150);
+
+    // Hit Detection against Enemies
+    let dmg = playerStats.class === 'Merchant' ? 35 : 25;
+    if (playerStats.skillsUnlocked[2]) dmg += 15; // Gold Beam Magnet skill
+
+    enemies.forEach((enemy, idx) => {
+        if (enemy.hp > 0) {
+            const dist = playerMesh.position.distanceTo(enemy.group.position);
+            if (dist < 10) {
+                enemy.hp -= dmg;
+                sounds.playHurt();
+
+                // Floating Damage Effect
+                if (enemy.hp <= 0) {
+                    scene.remove(enemy.group);
+                    sounds.playGold();
+                    playerStats.gold += 120;
+                    playerStats.xp += 50;
+                    checkLevelUp();
+                    updateHUD();
+
+                    // Quest update
+                    if (!quests[2].done) {
+                        quests[2].current += 1;
+                        if (quests[2].current >= quests[2].target) quests[2].done = true;
+                        updateQuestsUI();
+                    }
+                }
+            }
+        }
+    });
+}
+
+function checkInteraction() {
+    // Check NPCs
+    npcs.forEach(npc => {
+        const dist = playerMesh.position.distanceTo(npc.group.position);
+        if (dist < 4) {
+            openNPCDialog(npc);
+        }
+    });
+
+    // Check Gold Chests
+    goldChests.forEach((chest, idx) => {
+        const dist = playerMesh.position.distanceTo(chest.position);
+        if (dist < 3) {
+            sounds.playGold();
+            scene.remove(chest);
+            goldChests.splice(idx, 1);
+
+            const reward = 150;
+            playerStats.gold += reward;
+            if (playerStats.skillsUnlocked[3]) playerStats.hp = Math.min(100, playerStats.hp + 20);
+
+            // Quest update
+            if (!quests[1].done) {
+                quests[1].current += 1;
+                if (quests[1].current >= quests[1].target) quests[1].done = true;
+                updateQuestsUI();
+            }
+
+            updateHUD();
+        }
+    });
+}
+
+function openNPCDialog(npc) {
+    activeNPC = npc;
+    document.getElementById('npc-name').innerText = npc.name;
+    document.getElementById('npc-role').innerText = npc.role;
+    document.getElementById('npc-text').innerText = npc.dialog;
+    
+    const optionsContainer = document.getElementById('npc-options');
+    optionsContainer.innerHTML = '';
+
+    if (npc.name === "Landlord Renter") {
+        const requiredRent = playerStats.skillsUnlocked[1] ? 800 : 1000;
+        const btn = document.createElement('button');
+        btn.className = "gold-button px-4 py-2 text-xs rounded";
+        btn.innerHTML = `<i class="fa-solid fa-coins mr-1"></i> Pay Rent Debt (${requiredRent} Gold)`;
+        btn.onclick = () => {
+            if (playerStats.gold >= requiredRent) {
+                playerStats.gold -= requiredRent;
+                playerStats.rentDebt = 0;
+                quests[3].done = true;
+                updateHUD();
+                closeNPCDialog();
+                showVictory();
+            } else {
+                alert("You do not have enough Gold! Don't spend on unnecessary things!");
+            }
+        };
+        optionsContainer.appendChild(btn);
+    } else if (npc.name === "Wise Banker") {
+        const btn = document.createElement('button');
+        btn.className = "gold-button px-4 py-2 text-xs rounded";
+        btn.innerText = "Learn Practical Saving";
+        btn.onclick = () => {
+            quests[0].done = true;
+            updateQuestsUI();
+            closeNPCDialog();
+        };
+        optionsContainer.appendChild(btn);
+    } else if (npc.name === "Luxury Salesman") {
+        const btn = document.createElement('button');
+        btn.className = "bg-red-800 hover:bg-red-700 text-white font-bold px-4 py-2 text-xs rounded";
+        btn.innerText = "Buy Unnecessary Supercar (400 Gold)";
+        btn.onclick = () => {
+            if (playerStats.gold >= 400) {
+                playerStats.gold -= 400;
+                playerStats.inventory.push({ id: 'car', name: 'Expensive Supercar Key', type: 'luxury', val: 0, desc: 'An unnecessary luxury item! Waste of rent gold.' });
+                updateHUD();
+                alert("You bought the Supercar! But now you lack Gold for Rent! Remember: Be Practical!");
+            } else {
+                alert("You cannot afford this luxury!");
+            }
+        };
+        optionsContainer.appendChild(btn);
+    }
+
+    const closeBtn = document.createElement('button');
+    closeBtn.className = "bg-gray-800 hover:bg-gray-700 text-amber-200 px-4 py-2 text-xs rounded";
+    closeBtn.innerText = "Close";
+    closeBtn.onclick = closeNPCDialog;
+    optionsContainer.appendChild(closeBtn);
+
+    document.getElementById('npc-dialog').classList.remove('hidden');
+}
+
+function closeNPCDialog() {
+    document.getElementById('npc-dialog').classList.add('hidden');
+    activeNPC = null;
+}
+
+function toggleInventory() {
+    const modal = document.getElementById('inventory-modal');
+    modal.classList.toggle('hidden');
+    if (!modal.classList.contains('hidden')) renderInventoryUI();
+}
+
+function renderInventoryUI() {
+    const list = document.getElementById('inventory-list');
+    list.innerHTML = '';
+
+    playerStats.inventory.forEach((item, idx) => {
+        const div = document.createElement('div');
+        div.className = "p-2 bg-amber-950/40 border border-amber-800/40 rounded flex justify-between items-center cursor-pointer hover:bg-amber-800/40";
+        div.innerHTML = `<div><div class="font-bold text-amber-300 text-xs">${item.name}</div><div class="text-[10px] text-amber-100/60">${item.type.toUpperCase()}</div></div>`;
+        div.onclick = () => showItemDetail(item, idx);
+        list.appendChild(div);
+    });
+}
+
+function showItemDetail(item, idx) {
+    document.getElementById('item-title').innerText = item.name;
+    document.getElementById('item-desc').innerText = item.desc;
+    
+    const useBtn = document.getElementById('item-use-btn');
+    if (item.type === 'food') {
+        useBtn.classList.remove('hidden');
+        useBtn.onclick = () => {
+            sounds.playEat();
+            playerStats.hunger = Math.min(100, playerStats.hunger + item.val);
+            item.qty--;
+            if (item.qty <= 0) playerStats.inventory.splice(idx, 1);
+            renderInventoryUI();
+            updateHUD();
+            showItemDetail({ name: 'Select an Item', desc: 'Click an item on the left.' });
+        };
+    } else {
+        useBtn.classList.add('hidden');
+    }
+}
+
+function toggleSkillTree() {
+    const modal = document.getElementById('skill-modal');
+    modal.classList.toggle('hidden');
+    document.getElementById('skill-points-txt').innerText = playerStats.skillPoints;
+}
+
+function unlockSkill(idx) {
+    if (playerStats.skillPoints > 0 && !playerStats.skillsUnlocked[idx]) {
+        playerStats.skillPoints--;
+        playerStats.skillsUnlocked[idx] = true;
+        document.getElementById(`skill-btn-${idx}`).className = "bg-green-700 text-white font-bold px-3 py-1 text-xs rounded pointer-events-none";
+        document.getElementById(`skill-btn-${idx}`).innerText = "Unlocked";
+        toggleSkillTree();
+        toggleSkillTree();
+    }
+}
+
+function checkLevelUp() {
+    if (playerStats.xp >= playerStats.xpToNext) {
+        playerStats.level++;
+        playerStats.xp -= playerStats.xpToNext;
+        playerStats.xpToNext = Math.floor(playerStats.xpToNext * 1.5);
+        playerStats.skillPoints++;
+        updateHUD();
+    }
+}
+
+function updateHUD() {
+    document.getElementById('hud-player-name').innerText = playerStats.name;
+    document.getElementById('hud-level').innerText = `Lvl ${playerStats.level}`;
+    document.getElementById('hp-text').innerText = `${Math.ceil(playerStats.hp)} / 100`;
+    document.getElementById('hp-bar').style.width = `${Math.max(0, playerStats.hp)}%`;
+    document.getElementById('hunger-text').innerText = `${Math.ceil(playerStats.hunger)} / 100`;
+    document.getElementById('hunger-bar').style.width = `${Math.max(0, playerStats.hunger)}%`;
+    document.getElementById('hud-gold').innerText = playerStats.gold;
+    document.getElementById('hud-debt').innerText = playerStats.rentDebt;
+}
+
+function updateQuestsUI() {
+    const list = document.getElementById('quest-list');
+    list.innerHTML = '';
+    let completedCount = 0;
+
+    quests.forEach(q => {
+        if (q.done) completedCount++;
+        const item = document.createElement('div');
+        item.className = `p-1.5 rounded ${q.done ? 'line-through text-amber-500/50' : 'text-amber-200'}`;
+        item.innerHTML = `<i class="fa-regular ${q.done ? 'fa-square-check text-green-400' : 'fa-square'} mr-1.5"></i> ${q.title}`;
+        list.appendChild(item);
+    });
+
+    document.getElementById('quest-count').innerText = `${completedCount}/${quests.length}`;
+}
+
+function drawMinimap() {
+    const canvas = document.getElementById('minimap');
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, 100, 100);
+
+    // Center player at (50, 50)
+    ctx.fillStyle = '#ffe066';
+    ctx.beginPath();
+    ctx.arc(50, 50, 3, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Draw Gold Chests
+    ctx.fillStyle = '#ffd700';
+    goldChests.forEach(chest => {
+        const relX = 50 + (chest.position.x - playerMesh.position.x) * 0.6;
+        const relZ = 50 + (chest.position.z - playerMesh.position.z) * 0.6;
+        if (relX >= 0 && relX <= 100 && relZ >= 0 && relZ <= 100) {
+            ctx.fillRect(relX - 2, relZ - 2, 4, 4);
+        }
+    });
+
+    // Draw Enemies
+    ctx.fillStyle = '#ff2222';
+    enemies.forEach(e => {
+        if (e.hp > 0) {
+            const relX = 50 + (e.group.position.x - playerMesh.position.x) * 0.6;
+            const relZ = 50 + (e.group.position.z - playerMesh.position.z) * 0.6;
+            if (relX >= 0 && relX <= 100 && relZ >= 0 && relZ <= 100) {
+                ctx.beginPath();
+                ctx.arc(relX, relZ, 2.5, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+    });
+}
+
+function startGame() {
+    sounds.init();
+    document.getElementById('story-modal').classList.add('hidden');
+    document.getElementById('game-hud').classList.remove('hidden');
+
+    // Class Modifiers
+    if (selectedClass === 'Spendthrift') {
+        playerStats.gold = 500;
+        playerStats.rentDebt = 1200;
+    } else if (selectedClass === 'Practical') {
+        playerStats.gold = 200;
+    } else if (selectedClass === 'Merchant') {
+        playerStats.gold = 250;
+    }
+
+    init3DWorld();
+    updateHUD();
+    updateQuestsUI();
+
+    // Start Main Loop
+    animate();
+}
+
+function animate() {
+    requestAnimationFrame(animate);
+
+    const delta = clock.getDelta();
+
+    // Movement Logic
+    if (playerMesh) {
+        const speed = keys['ShiftLeft'] ? 12 : 7;
+        const moveVec = new THREE.Vector3();
+
+        if (keys['KeyW']) moveVec.z -= 1;
+        if (keys['KeyS']) moveVec.z += 1;
+        if (keys['KeyA']) moveVec.x -= 1;
+        if (keys['KeyD']) moveVec.x += 1;
+
+        moveVec.normalize().applyAxisAngle(new THREE.Vector3(0, 1, 0), mouseLook.yaw);
+        playerMesh.position.add(moveVec.multiplyScalar(speed * delta));
+
+        // Update Camera Pivot
+        cameraPivot.position.copy(playerMesh.position);
+        cameraPivot.rotation.y = mouseLook.yaw;
+        cameraPivot.rotation.x = mouseLook.pitch;
+
+        // Interaction Prompt Check
+        let promptVisible = false;
+        [...npcs, ...goldChests].forEach(ent => {
+            const pos = ent.position || ent.group.position;
+            if (playerMesh.position.distanceTo(pos) < 3.5) {
+                promptVisible = true;
+            }
+        });
+        document.getElementById('interaction-prompt').className = promptVisible ? "self-center bg-black/80 border border-amber-400 text-amber-300 px-6 py-2 rounded-full font-bold text-sm shadow-xl animate-bounce pointer-events-auto" : "hidden";
+
+        // Hunger Decay
+        const decayRate = playerStats.skillsUnlocked[0] ? 0.8 : 1.2;
+        playerStats.hunger -= decayRate * delta;
+
+        // Starvation damage
+        if (playerStats.hunger <= 0) {
+            playerStats.hunger = 0;
+            playerStats.hp -= 4 * delta;
+            if (playerStats.hp <= 0) {
+                gameOver("Eliot died of hunger without future gold, fulfilling his tragic backstory!");
+            }
+        }
+
+        updateHUD();
+        drawMinimap();
+    }
+
+    renderer.render(scene, camera);
+}
+
+function gameOver(reason) {
+    document.getElementById('game-over-reason').innerText = reason;
+    document.getElementById('game-over-modal').classList.remove('hidden');
+}
+
+function showVictory() {
+    document.getElementById('victory-modal').classList.remove('hidden');
+}
+
+function restartGame() {
+    window.location.reload();
+}
+
+function onWindowResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+}
+</script>
+</body>
+</html>
